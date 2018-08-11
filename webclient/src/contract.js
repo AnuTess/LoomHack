@@ -4,6 +4,7 @@ import {
 } from 'loom-js'
 
 import Web3 from 'web3'
+import { isNullOrUndefined } from 'util';
 
 function getClient(privateKey, publicKey) {
   const client = new Client(
@@ -23,15 +24,21 @@ function getClient(privateKey, publicKey) {
 export default class Contract {
   constructor() {
     this.ready = false
+    const client
   }
 
   async start() {
-    const privateKey = CryptoUtils.generatePrivateKey()
-    const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
-    const client = getClient(privateKey, publicKey)
-    const from = LocalAddress.fromPublicKey(publicKey).toString()
-    const web3 = new Web3(new LoomProvider(client, privateKey))
-    this.user = from
+    if(true){
+      const privateKey = CryptoUtils.generatePrivateKey()
+      const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
+      client = getClient(privateKey, publicKey)
+      const from = LocalAddress.fromPublicKey(publicKey).toString()
+      const web3 = new Web3(new LoomProvider(client, privateKey))
+      localStorage.setItem("from", from)
+      console.log(from)
+    }
+    
+    this.user = localStorage.from
 
     client.on('error', msg => {
       console.error('Error on connect to client', msg)
